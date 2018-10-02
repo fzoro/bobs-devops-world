@@ -1,0 +1,53 @@
+https://www.digitalocean.com/community/tutorials/how-to-create-a-cluster-of-docker-containers-with-docker-swarm-and-digitalocean-on-ubuntu-16-04
+
+##### Step 1 
+
+#https://developers.digitalocean.com/documentation/v2/#create-a-new-droplet
+#create ssh key in your local(without passphrase, unless you want to type it > 10 times. =) )
+#set env vars:
+## DOTOKEN=foo
+## DOFINGERPRINT=bar
+
+#Create node 1
+docker-machine create --driver digitalocean --digitalocean-ssh-key-fingerprint $DOFINGERPRINT --digitalocean-region sfo2 --digitalocean-image ubuntu-16-04-x64 --digitalocean-access-token $DOTOKEN node1
+#Create node 2
+docker-machine create --driver digitalocean --digitalocean-ssh-key-fingerprint $DOFINGERPRINT --digitalocean-region sfo2 --digitalocean-image ubuntu-16-04-x64 --digitalocean-access-token $DOTOKEN node2
+
+
+##### Step 2 
+
+https://www.digitalocean.com/community/tutorials/how-to-configure-the-linux-firewall-for-docker-swarm-on-ubuntu-16-04
+### EXECUTE on node Managers
+ufw allow 22/tcp
+ufw allow 2376/tcp
+ufw allow 2377/tcp
+ufw allow 7946/tcp
+ufw allow 7946/udp
+ufw allow 4789/udp
+
+ufw reload
+ufw enable
+systemctl restart docker
+
+
+### EXECUTE on node workers
+ufw allow 22/tcp
+ufw allow 2376/tcp
+ufw allow 7946/tcp 
+ufw allow 7946/udp
+ufw allow 4789/udp 
+
+##### Step 3
+docker-machine ssh node-1
+docker swarm init --advertise-addr node_ip_address
+
+docker-machine ssh node-2
+docker swarm join \
+--token your_swarm_token \
+manager_node_ip_address:2377
+
+
+##### Step 4 ( Create NGINX service)
+docker-machine ssh node-1
+docker service create -p 80:80 --name webserver nginx
+docker service scale webserver=5

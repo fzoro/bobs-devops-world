@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  db:
+    image: mysql:5
+    restart: always
+    environment:
+      MYSQL_DATABASE: zoret4db
+      MYSQL_USER: zoret4user
+      MYSQL_PASSWORD: zoret4pwd
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - 3306:3306
+    expose:
+      - 3306
+    volumes:
+      # - datavolume:/var/lib/mysql (docker-machine users)
+      - /tmp:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 7070:8080
+
+#I usually use docker-machine, therefore I uncomment below code. https://docs.docker.com/storage/volumes/#start-a-container-with-a-volume
+#volumes:
+  #datavolume:
