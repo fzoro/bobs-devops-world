@@ -1,1 +1,41 @@
 server.port: 9090
+
+spring:
+  profiles: default
+
+app:
+  upstream:
+    clientKey:  KEY_DEFAULT
+    microservices:
+      foundation:
+        uri: http://localhost:9091
+      socialmedia:
+        uri: http://localhost:9092
+
+---
+
+spring:
+  profiles: test
+
+app:
+  upstream:
+    clientKey:  KEY_TESTS
+    microservices:
+      foundation:
+        uri: http://localhost:9091
+      socialmedia:
+        uri: http://localhost:9092
+
+---
+
+spring:
+  profiles: prod
+
+app:
+  upstream:
+    clientKey:  KEY_PROD
+    microservices:
+      foundation:
+        uri: http://localhost:9091
+      socialmedia:
+        uri: http://localhost:9092
