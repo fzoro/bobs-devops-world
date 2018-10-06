@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.51'
+		kotlinVersion = '1.2.41' // 1.2.51 was throwing error on intelij(https://github.com/JetBrains/kotlin-workshop/issues/12)
 		springBootVersion = '2.0.5.RELEASE'
 	}
 	repositories {
