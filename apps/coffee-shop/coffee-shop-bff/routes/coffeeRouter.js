@@ -7,7 +7,8 @@ router.get('/', async function(req, res, next) {
   try{
     response = await axios.get('http://localhost:9090/inventory/coffee')
   }catch(e){
-    return res.status(500).send()
+    //return res.status(500).send()
+    return res.send('only BFF is up redis.url=' + config.redis.url + 'redis.url='+ config.redis.port)
   }
   res.send(response.data + ' -  passed by nodeJS BFF as well. redis.url=' + config.redis.url + 'redis.url='+ config.redis.port)
 });
