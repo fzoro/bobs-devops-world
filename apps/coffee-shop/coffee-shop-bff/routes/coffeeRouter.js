@@ -5,12 +5,11 @@ var config = require('../config');
 router.get('/', async function(req, res, next) {
   let response 
   try{
-    response = await axios.get('http://localhost:9090/inventory/coffee')
+    response = await axios.get(`${config.microservices.inventory.uri}/coffee`)
   }catch(e){
-    //return res.status(500).send()
-    return res.send('only BFF is up redis.url=' + config.redis.url + 'redis.url='+ config.redis.port)
+    return res.status(500).send()
   }
-  res.send(response.data + ' -  passed by nodeJS BFF as well. redis.url=' + config.redis.url + 'redis.url='+ config.redis.port)
+  res.send(response.data + ' -  passed by nodeJS BFF as well.')
 });
 
 module.exports = router;

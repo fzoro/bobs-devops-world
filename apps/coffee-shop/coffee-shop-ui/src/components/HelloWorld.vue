@@ -1,8 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <button @click="getCoffeeInventoryPromise()">Show me the coffee(Promise)!</button>
-    <button @click="getCoffeeInventoryAsync()">Show me the coffee(Async)!</button>
+    <button @click="getCoffeeInventory()">Show me the coffee(Async)!</button>
     <h3>{{ coffeeInventory }}</h3>
   </div>
 </template>
@@ -19,13 +18,8 @@ export default {
     }
   },
   methods: {
-    getCoffeeInventoryPromise: function () {
-      axios
-        .get('http://localhost:3000/coffee')
-        .then(response => (this.coffeeInventory = response.data))
-    },
-    getCoffeeInventoryAsync: async function () {
-      let response = await axios.get('http://localhost:3000/coffee')
+    getCoffeeInventory: async function () {
+      let response = await axios.get(`${process.env.VUE_APP_BFF}/coffee`)
       this.coffeeInventory = response.data
     }
   }
