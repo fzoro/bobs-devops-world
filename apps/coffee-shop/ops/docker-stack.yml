@@ -38,13 +38,12 @@ services:
     networks:
       - frontend
     deploy:
-      mode: replicated
       replicas: 1
       restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 3
-        window: 120s
+        window: 200s
 
 networks:
   frontend:
